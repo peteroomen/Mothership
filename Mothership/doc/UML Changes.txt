@@ -1,0 +1,6 @@
+Renamed 	CommandManager => CommandFactory
+			ResponseManager => ResponseFactory
+			
+Changed		Interpreter.interpret(line : String) => Interpreter.interpret(line : String) : Command
+
+Added		ResponseManager.getResponseByCode(code : int) : Response
