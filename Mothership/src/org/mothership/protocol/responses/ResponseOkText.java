@@ -9,7 +9,7 @@ import org.mothership.protocol.Response;
  * @author Peter Oomen
  */
 public class ResponseOkText extends Response {
-	protected ResponseOkText() {
+	public ResponseOkText() {
 		super(102, "Ok, text", false);
 	}
 }

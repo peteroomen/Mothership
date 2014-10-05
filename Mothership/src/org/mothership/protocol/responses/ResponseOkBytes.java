@@ -9,7 +9,7 @@ import org.mothership.protocol.Response;
  * @author Peter Oomen
  */
 public class ResponseOkBytes extends Response {
-	protected ResponseOkBytes() {
+	public ResponseOkBytes() {
 		super(103, "Ok, bytes", true);
 	}
 }

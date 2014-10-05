@@ -43,6 +43,6 @@ public abstract class Response {
 	 * @return The string representation of this Response
 	 */
 	public String getResponseString(String args) {
-		return code + " " + message + " " + (hasArgs ? "" : ":" + args);
+		return code + " " + message + (hasArgs ? ":" + args : "");
 	}
 }
