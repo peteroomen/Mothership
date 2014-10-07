@@ -1,7 +1,6 @@
 package org.mothership.server;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -13,7 +12,7 @@ import java.util.List;
 public class Server {
 	private static Server instance = null;
 	private static List<Session> sessionList = new ArrayList<Session>();
-	
+
 	public static void main(String arg[]) {
 
 		try {
@@ -21,27 +20,27 @@ public class Server {
 
 			while (true) {
 				Socket connection = sSocket.accept();
-				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				PrintWriter out = new PrintWriter(connection.getOutputStream(),true);
-				
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						connection.getInputStream()));
+				PrintWriter out = new PrintWriter(connection.getOutputStream(), true);
+
 				// check for new valid connection and setup new session
 				if (in.readLine().startsWith("Hello")) {
 					System.out.println("Creating new session");
 					sessionList.add(new Session());
-					System.out.println(sessionList.get(0).getPort());
-					out.write("420 Hello 79090"); // send response
+					out.println("420 Hello:" + sessionList.get(sessionList.size()-1).getPort()); // send response(420 Hello:<port>)
 				}
 				connection.close();
 			}
-			
+
 		} catch (IOException e) {
 			// Some exception
 		}
 	}
-	
+
 	/**
-	 * 
-	 * @return
+	 * Gets instance of server
+	 * @return Instance of this server
 	 */
 	public static Server getInstance() {
 		if (instance == null) {
