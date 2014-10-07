@@ -15,9 +15,6 @@ public class Session {
 	public Session() {
 		try {
 			sSocket = new ServerSocket(0); // new server socket on random port
-			// newConnection();
-
-			// Socket sock = sSocket.accept();
 			newConnectionThread c1 = new newConnectionThread(sSocket);
 			c1.start();
 
@@ -33,7 +30,6 @@ public class Session {
 		}
 
 		public void run() {
-			System.out.println("Thread running");
 			try {
 				connectionList.add(new Connection(sock.accept()));
 			} catch (Exception e) {

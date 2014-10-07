@@ -15,8 +15,7 @@ public class Connection {
 	public Connection(Socket sSock) {
 		String line;
 		sock = sSock;
-		
-		System.out.println("Connection did execute");
+
 		// All for testing purposes
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
