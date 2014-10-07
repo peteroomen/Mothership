@@ -1,6 +1,6 @@
 package org.mothership.protocol.commands;
 
-import org.mothership.Connection;
+import org.mothership.server.Connection;
 import org.mothership.protocol.Command;
 import org.mothership.protocol.Response;
 import org.mothership.protocol.ResponseFactory;

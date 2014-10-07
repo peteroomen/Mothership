@@ -2,7 +2,7 @@ package org.mothership.protocol;
 
 import java.io.InputStream;
 
-import org.mothership.Connection;
+import org.mothership.server.Connection;
 
 /**
  * Abstract base class for all command objects. Command objects represent commands that can

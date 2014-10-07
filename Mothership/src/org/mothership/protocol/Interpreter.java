@@ -1,6 +1,6 @@
 package org.mothership.protocol;
 
-import org.mothership.Connection;
+import org.mothership.server.Connection;
 import org.mothership.protocol.responses.ResponseInvalidCommand;
 
 /**

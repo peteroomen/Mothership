@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import org.mothership.Connection;
+import org.mothership.server.Connection;
 import org.mothership.protocol.commands.*;
 
 /**
