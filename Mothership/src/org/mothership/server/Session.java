@@ -15,24 +15,33 @@ public class Session {
 	public Session() {
 		try {
 			sSocket = new ServerSocket(0); // new server socket on random port
-			newConnection();
+			// newConnection();
+
+			// Socket sock = sSocket.accept();
+			newConnectionThread c1 = new newConnectionThread(sSocket);
+			c1.start();
+
 		} catch (IOException e) {
-
 		}
 	}
 
+	class newConnectionThread extends Thread {
+		ServerSocket sock;
+
+		public newConnectionThread(ServerSocket sSock) {
+			sock = sSock;
+		}
+
+		public void run() {
+			System.out.println("Thread running");
+			try {
+				connectionList.add(new Connection(sock.accept()));
+			} catch (Exception e) {
+
+			}
+		}
+	}
 	
-	private void newConnection() { // IDEA: rename to run for threading
-		//NOTES may not need connectionList
-		try {
-			System.out.println(getPort()); // REMOVE FOR DEBUG use(won't matter when threaded)
-			Socket sock = sSocket.accept();
-			connectionList.add(new Connection(sock));
-		} catch (Exception e) {
-
-		}
-	}
-
 	/**
 	 * Returns the port number for this session.
 	 * 

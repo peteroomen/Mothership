@@ -28,7 +28,7 @@ public class Server {
 				if (in.readLine().startsWith("Hello")) {
 					System.out.println("Creating new session");
 					sessionList.add(new Session());
-					out.println("420 Hello:" + sessionList.get(sessionList.size()-1).getPort()); // send response(420 Hello:<port>)
+					out.println("420 Hello:" + sessionList.get(sessionList.size()-1).getPort() + "list length: " + sessionList.size()); // send response(420 Hello:<port>)
 				}
 				connection.close();
 			}
