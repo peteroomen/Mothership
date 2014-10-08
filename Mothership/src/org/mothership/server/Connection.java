@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Connection {
@@ -11,7 +12,7 @@ public class Connection {
 	private InputStream input;
 	private OutputStream output;
 	
-
+	//Testing Only
 	public Connection(Socket sSock) {
 		String line;
 		sock = sSock;
@@ -23,6 +24,15 @@ public class Connection {
 			while ((line = in.readLine()) != null) {
 				System.out.println("Connection: " + line);
 			}
+		} catch (Exception e) {
+
+		}
+	}
+	
+	
+	public Connection(InetAddress clientIP, int port) {
+		try {
+			sock = new Socket(clientIP, port);
 		} catch (Exception e) {
 
 		}
