@@ -7,32 +7,29 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class Connection {
+public class Connection extends Thread{
 	private Socket sock;
 	private InputStream input;
 	private OutputStream output;
 	
 	//Testing Only
 	public Connection(Socket sSock) {
-		String line;
+		
 		sock = sSock;
-
+	}
+	
+	@Override
+	public void run(){
+		String line;
+		super.run();
 		// All for testing purposes
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					sSock.getInputStream()));
+					sock.getInputStream()));
 			while ((line = in.readLine()) != null) {
-				System.out.println("Connection: " + line);
+				System.out.println("Connection: " + line); 
+				// hand of to interpreter
 			}
-		} catch (Exception e) {
-
-		}
-	}
-	
-	
-	public Connection(InetAddress clientIP, int port) {
-		try {
-			sock = new Socket(clientIP, port);
 		} catch (Exception e) {
 
 		}

@@ -25,9 +25,11 @@ public class Server {
 				PrintWriter out = new PrintWriter(connection.getOutputStream(), true);
 
 				// check for new valid connection and setup new session
-				if (in.readLine().startsWith("Hello")) {
+				if (in.readLine().startsWith("hello")) {
 					System.out.println("Creating new session");
-					sessionList.add(new Session());
+					Session sesh = new Session();
+					sesh.start();
+					sessionList.add(sesh);
 					out.println("420 Hello:" + sessionList.get(sessionList.size()-1).getPort()); // send response(420 Hello:<port>)
 				}
 				connection.close();
