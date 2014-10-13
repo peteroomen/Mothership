@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.InetAddress;
 import java.net.Socket;
 
 import org.mothership.protocol.Interpreter;
@@ -33,16 +32,12 @@ public class Connection extends Thread {
 	@Override
 	public void run() {
 		String line;
-		super.run();
-		
-		//Interpreter handle = new Interpreter(this);
-		
-		// All for testing purposes
+		Interpreter interpret = new Interpreter(this);	
+
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(input));
 			while ((line = in.readLine()) != null) {
-				System.out.println("Connection: " + line);
-				// hand off to interpreter
+				interpret.interpretLine(line);
 			}
 		} catch (Exception e) {
 
@@ -56,6 +51,14 @@ public class Connection extends Thread {
 	public void sendLine(String responseString) {
 		PrintStream printStream = new PrintStream(output, true);
 		printStream.println(responseString);
+	}
+	
+	/**
+	 * Send Bytes to client
+	 * @param responseBytes Byte array of data to be send to client
+	 */
+	public void sendBytes(Byte[] responseBytes){
+		//TODO
 	}
 
 }

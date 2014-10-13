@@ -1,16 +1,20 @@
 package org.mothership.scripts;
 
 import java.awt.Image;
+import java.io.IOException;
 
 public class Script {
 	private String name;
 	private String description;
 	private Image icon;
+	private String path;
 	
-	public Script(String name, String description, Image icon){
+	public Script(String name, String description, String path){
 		this.name = name;
 		this.description = description;
-		this.icon = icon;
+		this.path = path + name + ".sh";
+		
+		//TODO set image icon
 	}
 	
 	/**
@@ -18,8 +22,13 @@ public class Script {
 	 * @return int exit code this script
 	 */
 	public int execute(){
-		// Process p = Runtime.getRuntime().exec(file path/name);
-		return 0;
+		Process proc;
+		try {
+			proc = Runtime.getRuntime().exec(path); // executes scripts
+		} catch (IOException e) {
+			return -1;
+		}
+		return proc.exitValue();
 	}
 	
 	public String getName(){

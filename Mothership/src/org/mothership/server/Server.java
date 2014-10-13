@@ -9,12 +9,16 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mothership.scripts.ScriptManager;
+
 public class Server {
 	private static Server instance = null;
 	private static List<Session> sessionList = new ArrayList<Session>();
 
 	public static void main(String arg[]) {
 		String line;
+		ScriptManager sm = new ScriptManager();
+		
 		try {
 			ServerSocket sSocket = new ServerSocket(48080);
 
@@ -28,7 +32,7 @@ public class Server {
 				line = in.readLine();
 				
 				// check for new valid connection and setup new session
-				if (line != null || line.startsWith("hello")) {
+				if (line != null && line.startsWith("hello")) {
 					System.out.println("Creating new session");
 					Session sesh = new Session();
 					sesh.start();

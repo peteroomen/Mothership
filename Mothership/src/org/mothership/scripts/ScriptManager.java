@@ -1,13 +1,58 @@
 package org.mothership.scripts;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class ScriptManager {
-	List<Script> scriptList = new ArrayList<Script>();
+	private ArrayList<Script> scriptList = new ArrayList<Script>();
+	private String scriptPath = System.getProperty("user.home") + "/Scripts"; // location of scripts
 	
-	public ScriptManager(){
-		// populate scripts list
+	public ScriptManager() {
+		File scriptsDir = new File(scriptPath);
+		File[] scriptArray;
+		String scriptConfigPath;
+		Properties prop = new Properties();
+		
+		if(scriptsDir.exists()){
+			scriptArray = scriptsDir.listFiles(); // get all file/folders in script directory.
+			
+			for (int i = 0; i < scriptArray.length; i++) {
+				if (scriptArray[i].isDirectory()) {
+					scriptConfigPath = scriptArray[i].getPath()+ "/conf.properties";
+
+					try {
+						InputStream inputStream = new FileInputStream(scriptConfigPath); // get conf.properties file
+						prop.load(inputStream);			
+						scriptList.add(new Script(prop.getProperty("name"), 	// add new script to scriptList
+								prop.getProperty("description"), scriptArray[i]
+										.getPath()));
+						
+					} catch (FileNotFoundException notFound) {
+						System.err.println("No conf.properties found in "
+								+ scriptArray[i].getName());
+					} catch (Exception e) {
+						System.err.println(e);
+					}
+				}
+			}
+			
+		}else{
+			System.err.println("Can not find scripts directory");
+		}
+	}
+
+	/**
+	 * Gets all scripts available
+	 * @return ArrayList<Script> Script List
+	 */
+	public ArrayList<Script> getScriptList(){
+		return scriptList;
 	}
 	
 	/**
