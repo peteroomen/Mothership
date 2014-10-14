@@ -1,7 +1,19 @@
 package org.mothership.protocol.commands;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import org.mothership.scripts.Script;
+import org.mothership.scripts.ScriptManager;
 import org.mothership.server.Connection;
+import org.mothership.server.Server;
 import org.mothership.protocol.Command;
+import org.mothership.protocol.ResponseFactory;
+import org.mothership.protocol.responses.ResponseDone;
+import org.mothership.protocol.responses.ResponseOkText;
 
 public class CommandRunScript extends Command {
 
@@ -12,7 +24,27 @@ public class CommandRunScript extends Command {
 
 	@Override
 	public int execute(String args) {
-		// TODO Auto-generated method stub
+		String res = ResponseFactory.getInstance().getResponseOfType(ResponseOkText.class).getResponseString("");
+		connection.sendLine(res);
+		
+		Server serv = Server.getInstance();
+		ScriptManager sm = serv.getScriptManager();
+		Script s = sm.getScriptByName(args);
+		
+		s.execute();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(s.getIn()));
+		
+		try {
+			connection.sendLine(br.readLine());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		res = ResponseFactory.getInstance().getResponseOfType(ResponseDone.class).getResponseString("");
+		connection.sendLine(res);
+		
 		return 0;
 	}
 

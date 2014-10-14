@@ -63,7 +63,7 @@ public class ScriptManager {
 	public Script getScriptByName(String name){
 		// search for script
 		for(Script s : scriptList){
-			if(s.getName().contains(name))
+			if(s.getName().equals(name))
 				return s;
 		}
 		// no script found

@@ -61,4 +61,9 @@ public class Connection extends Thread {
 		//TODO
 	}
 
+	public void sendChar(char c) {
+		PrintStream printStream = new PrintStream(output, true);
+		printStream.print(c);
+	}
+
 }

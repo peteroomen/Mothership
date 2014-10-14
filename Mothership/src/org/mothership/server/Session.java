@@ -15,7 +15,8 @@ public class Session extends Thread {
 	 */
 	public Session() {
 		try {
-			sSocket = new ServerSocket(0); // new server socket on random port
+			//sSocket = new ServerSocket(0); // new server socket on random port
+			sSocket = new ServerSocket(48081); // temp
 		} catch (IOException e) {
 			
 		}
