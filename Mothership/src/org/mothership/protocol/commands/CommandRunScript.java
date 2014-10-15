@@ -30,20 +30,26 @@ public class CommandRunScript extends Command {
 		Server serv = Server.getInstance();
 		ScriptManager sm = serv.getScriptManager();
 		Script s = sm.getScriptByName(args);
-		
+
 		s.execute();
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(s.getIn()));
 		
+		System.out.println("Execution complete");
+		
+		String line;
 		try {
-			connection.sendLine(br.readLine());
+			while ((line = br.readLine()) != null) {
+				connection.sendLine(line);
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+		connection.sendChar((char)27);
 		res = ResponseFactory.getInstance().getResponseOfType(ResponseDone.class).getResponseString("");
 		connection.sendLine(res);
+		
 		
 		return 0;
 	}

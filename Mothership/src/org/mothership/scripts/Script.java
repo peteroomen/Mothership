@@ -3,22 +3,18 @@ package org.mothership.scripts;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
 
 public class Script {
 	private String name;
 	private String description;
 	private Image icon;
 	private String path;
-	private ProcessBuilder proc;
-	private InputStream in = null;
+	private Process proc;
 	
 	public Script(String name, String description, String path){
 		this.name = name;
 		this.description = description;
-		this.path = path + name + ".sh";
-		proc = new ProcessBuilder("/bin/sh", path);
+		this.path = path + "/" + name + ".sh";
 		
 		//TODO set image icon
 	}
@@ -27,14 +23,17 @@ public class Script {
 	 * Execute this script
 	 * @return int exit code this script
 	 */
-	public void execute(){
-		Process p;
+	public int execute() {
 		try {
-			p = proc.start();
-			in = p.getInputStream();
+			proc = Runtime.getRuntime().exec(path); // executes scripts
+			proc.waitFor();
+			System.out.println(proc.exitValue());
 		} catch (IOException e) {
+			return -1;
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		return proc.exitValue();
 	}
 	
 	public String getName(){
@@ -42,6 +41,6 @@ public class Script {
 	}
 
 	public InputStream getIn() {
-		return in;
+		return proc.getInputStream();
 	}
 }

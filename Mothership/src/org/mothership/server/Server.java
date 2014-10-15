@@ -3,6 +3,7 @@ package org.mothership.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.*;
 import java.util.ArrayList;
@@ -12,21 +13,16 @@ import org.mothership.scripts.ScriptManager;
 
 public class Server {
 	private static Server instance = null;
-	
-	private List<Session> sessionList = new ArrayList<Session>();
+	private static List<Session> sessionList = new ArrayList<Session>();
 	private ScriptManager sm;
 
 	public static void main(String arg[]) {
 		instance = new Server();
-		instance.start();
 	}
 	
-	private void start() {
+	public Server() {
 		String line;
-		synchronized (Server.class) {
-			sm = new ScriptManager();
-		}
-		
+		sm = new ScriptManager();
 		try {
 			ServerSocket sSocket = new ServerSocket(48080);
 
@@ -59,7 +55,10 @@ public class Server {
 	 * Gets instance of server
 	 * @return Instance of this server
 	 */
-	public static synchronized Server getInstance() {
+	public synchronized static Server getInstance() {
+		if (instance == null) {
+			instance = new Server();
+		}
 		return instance;
 	}
 

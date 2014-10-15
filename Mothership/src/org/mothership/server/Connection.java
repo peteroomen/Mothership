@@ -1,6 +1,7 @@
 package org.mothership.server;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -25,7 +26,7 @@ public class Connection extends Thread {
 			output = sock.getOutputStream();
 			input = sock.getInputStream();
 		} catch (Exception e) {
-
+			System.err.println("Failed to get streams for connection: " + e.getMessage());
 		}
 	}
 
@@ -37,10 +38,11 @@ public class Connection extends Thread {
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(input));
 			while ((line = in.readLine()) != null) {
+				//System.out.println(line);
 				interpret.interpretLine(line);
 			}
 		} catch (Exception e) {
-
+			System.err.println("Failed to interpret line: " + e.getMessage() + " " + e.getClass().toString());
 		}
 	}
 
@@ -54,16 +56,24 @@ public class Connection extends Thread {
 	}
 	
 	/**
-	 * Send Bytes to client
+	 * Send bytes to client
 	 * @param responseBytes Byte array of data to be send to client
 	 */
-	public void sendBytes(Byte[] responseBytes){
-		//TODO
+	public void sendBytes(byte[] responseBytes){
+		try {
+			output.write(responseBytes);
+		} catch (IOException e) {
+			System.err.println(e);
+		} catch (NullPointerException np){
+			System.err.println("responseByte Array Null");
+		}
 	}
 
 	public void sendChar(char c) {
-		PrintStream printStream = new PrintStream(output, true);
-		printStream.print(c);
+		try {
+			output.write((byte)c);
+		} catch (IOException e) {
+		}		
 	}
 
 }
