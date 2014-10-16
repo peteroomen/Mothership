@@ -10,6 +10,11 @@ import java.net.Socket;
 
 import org.mothership.protocol.Interpreter;
 
+/**
+ * Creates a new threaded connection to client
+ * @author Nicholas Ross(nmr13)
+ *
+ */
 public class Connection extends Thread {
 	private Socket sock;
 	private InputStream input;
@@ -20,8 +25,9 @@ public class Connection extends Thread {
 	 * @param sSock Socket connected to client
 	 */
 	public Connection(Socket sSock) {
-
 		sock = sSock;
+		
+		// set I/O streams
 		try {
 			output = sock.getOutputStream();
 			input = sock.getInputStream();
@@ -35,10 +41,10 @@ public class Connection extends Thread {
 		String line;
 		Interpreter interpret = new Interpreter(this);	
 
+		// read in command and send to interpreter
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(input));
 			while ((line = in.readLine()) != null) {
-				//System.out.println(line);
 				interpret.interpretLine(line);
 			}
 		} catch (Exception e) {
@@ -69,10 +75,15 @@ public class Connection extends Thread {
 		}
 	}
 
+	/**
+	 * Send single char to client
+	 * @param char character to send.
+	 */
 	public void sendChar(char c) {
 		try {
 			output.write((byte)c);
 		} catch (IOException e) {
+			System.err.println("Send Char: " + e.getMessage());
 		}		
 	}
 

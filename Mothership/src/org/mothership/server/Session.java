@@ -6,6 +6,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates new threaded session for client
+ * @author Nicholas Ross(nmr13)
+ *
+ */
 public class Session extends Thread {
 	private ServerSocket sSocket;
 	private List<Connection> connectionList = new ArrayList<Connection>();
@@ -18,7 +23,6 @@ public class Session extends Thread {
 			sSocket = new ServerSocket(0); // new server socket on random port
 		} catch (IOException e) {
 			System.err.println("Session constructor" + e.getMessage());
-
 		}
 	}
 
@@ -27,6 +31,7 @@ public class Session extends Thread {
 		super.run();
 		while (true) {
 			try {
+				// accept incoming connection and add to connection list
 				Connection newConnection = new Connection(sSocket.accept());
 				newConnection.start();
 				connectionList.add(newConnection);
@@ -53,7 +58,7 @@ public class Session extends Thread {
 		try {
 			sSocket.close();
 		} catch (Exception e) {
-
+			System.err.println("Close Session: " + e.getMessage());
 		}
 	}
 }

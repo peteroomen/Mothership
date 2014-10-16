@@ -11,6 +11,11 @@ import java.util.List;
 
 import org.mothership.scripts.ScriptManager;
 
+/**
+ * Sets up a server listing on port 48080 then creates sessions for each client
+ * once authenticated. 
+ * @author Nicholas Ross(nmr13)
+ */
 public class Server {
 	private static Server instance = null;
 	private static List<Session> sessionList = new ArrayList<Session>();
@@ -27,7 +32,7 @@ public class Server {
 			ServerSocket sSocket = new ServerSocket(48080);
 
 			while (true) {
-				Socket connection = sSocket.accept();
+				Socket connection = sSocket.accept(); // accept connection
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						connection.getInputStream()));
 				PrintWriter out = new PrintWriter(connection.getOutputStream(), true);
@@ -39,7 +44,7 @@ public class Server {
 				if (line != null && line.startsWith("hello")) {
 					System.out.println("Creating new session");
 					Session sesh = new Session();
-					sesh.start();
+					sesh.start(); // start session thread
 					sessionList.add(sesh);
 					out.println("420 Hello:" + sessionList.get(sessionList.size()-1).getPort()); // send response(420 Hello:<port>)
 				}
@@ -47,7 +52,7 @@ public class Server {
 			}
 
 		} catch (IOException e) {
-			// Some exception
+			System.err.println("Server setup :" + e.getMessage());
 		}
 	}
 
@@ -62,6 +67,10 @@ public class Server {
 		return instance;
 	}
 
+	/**
+	 * Gets scriptManger for this server
+	 * @return ScriptManger scriptManger
+	 */
 	public ScriptManager getScriptManager() {
 		return sm;
 	}
