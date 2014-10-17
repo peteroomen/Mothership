@@ -1,8 +1,1 @@
-Renamed 	CommandManager => CommandFactory
-			ResponseManager => ResponseFactory
-			
-Changed		Interpreter.interpret(line : String) => Interpreter.interpret(line : String) : int
-			ResponseFactory is now a singleton
-
-Added		ResponseManager.getResponseByCode(code : int) : Response
-			Connection.sendLine(String line)
+...

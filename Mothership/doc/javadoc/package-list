@@ -1,3 +1,5 @@
 org.mothership.protocol
 org.mothership.protocol.commands
 org.mothership.protocol.responses
+org.mothership.scripts
+org.mothership.server
